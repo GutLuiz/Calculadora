@@ -10,6 +10,8 @@ class Program
         Console.WriteLine("------------------------\n");
         int quantidade = 1;
 
+        List<string> _c = new List<string>();
+
         while (!endApp)
         {
             // Declare variables and set to empty.
@@ -62,12 +64,56 @@ class Program
             {
                 try
                 {
-                    result = Calculator.DoOperation(cleanNum1, cleanNum2, op);
-                    if (double.IsNaN(result))
+                    if (op == "e")
                     {
-                        Console.WriteLine("This operation will result in a mathematical error.\n");
+                        Console.WriteLine("Result:");
+                        foreach (var item in _c)
+                        {
+                            Console.WriteLine(" - " + item);
+                        }
+                       
+
+                        if (_c.Count > 0)
+                        {
+                            Console.WriteLine("Excluir lista?");
+                            Console.WriteLine("1 - Sim, quero excluir essa lista recente de calculos.");
+                            Console.WriteLine("2 - Nao, quero continuar com lista recente de calculos.");
+                            int escolha = int.Parse(Console.ReadLine());
+
+                            if (escolha == 1)
+                            {
+                                _c.Clear();
+                            }
+                            else
+                            {
+                                continue;
+                            }
+                        }
+                        
                     }
-                    else Console.WriteLine("Your result: {0:0.##}\n", result);
+                    else 
+                    {
+                        result = Calculator.DoOperation(cleanNum1, cleanNum2, op);
+                        string simbolo = op switch
+                        {
+                            "a" => "+",
+                            "s" => "-",
+                            "m" => "*",
+                            "d" => "/",
+                            _ => "?"
+                        };
+
+                        if (double.IsNaN(result))
+                        {
+                            Console.WriteLine("This operation will result in a mathematical error.\n");
+                            _c.Add($"{cleanNum1} {simbolo} {cleanNum2} = ERROR");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Your result: {0:0.##}\n", result);
+                            _c.Add($"{cleanNum1} {simbolo} {cleanNum2} = {result}");
+                        }
+                    }
                 }
                 catch (Exception e)
                 {
