@@ -8,6 +8,7 @@ class Program
         // Display title as the C# console calculator app.
         Console.WriteLine("Console Calculator in C#\r");
         Console.WriteLine("------------------------\n");
+        int quantidade = 1;
 
         while (!endApp)
         {
@@ -39,18 +40,21 @@ class Program
                 numInput2 = Console.ReadLine();
             }
 
+            Console.WriteLine(" ");
             // Ask the user to choose an operator.
+            Console.WriteLine("This calculator was used: " + quantidade + " times");
             Console.WriteLine("Choose an operator from the following list:");
             Console.WriteLine("\ta - Add");
             Console.WriteLine("\ts - Subtract");
             Console.WriteLine("\tm - Multiply");
             Console.WriteLine("\td - Divide");
+            Console.WriteLine("\te - Recent calculations");
             Console.Write("Your option? ");
 
             string? op = Console.ReadLine();
 
             // Validate input is not null, and matches the pattern
-            if (op == null || !Regex.IsMatch(op, "[a|s|m|d]"))
+            if (op == null || !Regex.IsMatch(op, "[a|s|m|d|e]"))
             {
                 Console.WriteLine("Error: Unrecognized input.");
             }
@@ -77,6 +81,7 @@ class Program
             if (Console.ReadLine() == "n") endApp = true;
 
             Console.WriteLine("\n"); // Friendly linespacing.
+            quantidade++;
         }
         return;
     }
