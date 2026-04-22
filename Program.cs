@@ -10,7 +10,7 @@ class Program
         Console.WriteLine("------------------------\n");
         int quantidade = 1;
 
-        List<string> _c = new List<string>();
+        List<Calculator> _c = new List<Calculator>();
 
         while (!endApp)
         {
@@ -66,13 +66,13 @@ class Program
                 {
                     if (op == "e")
                     {
-                        Console.WriteLine("Result:");
+                        // listo os resultados
+                        Console.WriteLine("Resultados:");
                         foreach (var item in _c)
                         {
-                            Console.WriteLine(" - " + item);
+                            Console.WriteLine($" - {item.numero1} {item.operacao} {item.numero2} = {item.resultado}");
                         }
-                       
-
+                        
                         if (_c.Count > 0)
                         {
                             Console.WriteLine("Excluir lista?");
@@ -86,7 +86,48 @@ class Program
                             }
                             else
                             {
-                                continue;
+                                Console.WriteLine("1 - Voce quer reutilizar algum calculo? (0,1,2,3,4,5)");
+                                int indice = int.Parse(Console.ReadLine());
+
+                                var escolhido = _c[indice];
+
+                                var resultado = escolhido.resultado;
+
+                                Console.Write("Digite o segundo número: ");
+                                string? input = Console.ReadLine();
+                                double n2 = double.Parse(input);
+
+                                Console.WriteLine("Escolha a operação (a/s/m/d): ");
+                                string opNova = Console.ReadLine();
+
+                                var novoResultado = Calculator.DoOperation(resultado, n2, opNova);
+
+                                string simbolo = opNova switch
+                                {
+                                    "a" => "+",
+                                    "s" => "-",
+                                    "m" => "*",
+                                    "d" => "/",
+                                    _ => "?"
+                                };
+
+                                if (double.IsNaN(novoResultado))
+                                {
+                                    Console.WriteLine("This operation will result in a mathematical error.\n");
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Your result: {0:0.##}\n", novoResultado);
+                                    _c.Add(new Calculator
+                                    {
+                                        numero1 = cleanNum1,
+                                        numero2 = cleanNum2,
+                                        operacao = simbolo,
+                                        resultado = novoResultado
+                                    });
+                                }
+
+
                             }
                         }
                         
@@ -106,12 +147,17 @@ class Program
                         if (double.IsNaN(result))
                         {
                             Console.WriteLine("This operation will result in a mathematical error.\n");
-                            _c.Add($"{cleanNum1} {simbolo} {cleanNum2} = ERROR");
                         }
                         else
                         {
                             Console.WriteLine("Your result: {0:0.##}\n", result);
-                            _c.Add($"{cleanNum1} {simbolo} {cleanNum2} = {result}");
+                            _c.Add(new Calculator
+                            {
+                                numero1 = cleanNum1,
+                                numero2 = cleanNum2,
+                                operacao = simbolo,
+                                resultado = result
+                            });
                         }
                     }
                 }

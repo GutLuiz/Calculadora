@@ -1,5 +1,9 @@
 ﻿class Calculator
 {
+    public double numero1 { get; set; }
+    public double numero2 { get; set; }
+    public string operacao { get; set; }
+    public double resultado { get; set; }
     public static double DoOperation(double num1, double num2, string op)
     {
         double result = double.NaN; // Default value is "not-a-number" if an operation, such as division, could result in an error.
